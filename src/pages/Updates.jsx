@@ -20,7 +20,7 @@ function Updates() {
     try {
       setLoading(true)
       const data = await api.updates.getAll()
-      const updatesData = data.data || []
+      const updatesData = (data.data || []).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
       setUpdates(updatesData)
       // Открываем последнее обновление (первое в списке)
       if (updatesData.length > 0) {
