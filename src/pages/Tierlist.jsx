@@ -140,7 +140,7 @@ function PlayerCard({ player }) {
       )}
 
       {player.updateNote && (
-        <div className="player-note">💡 {player.updateNote}</div>
+        <div className="player-note" >💡 {player.updateNote}</div>
       )}
 
       {player.videoLink && (
