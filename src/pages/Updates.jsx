@@ -22,7 +22,6 @@ function Updates() {
       const data = await api.updates.getAll()
       const updatesData = (data.data || []).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
       setUpdates(updatesData)
-      // Открываем последнее обновление (первое в списке)
       if (updatesData.length > 0) {
         setOpenId(updatesData[0].documentId)
       }
@@ -33,73 +32,45 @@ function Updates() {
     }
   }
 
-  if (loading) {
-    return <div className="loading">Загрузка обновлений...</div>
-  }
+  if (loading) return <div className="loading">Загрузка обновлений...</div>
+  if (updates.length === 0) return <div className="empty">Пока нет обновлений</div>
 
-  if (updates.length === 0) {
-    return <div className="empty">Пока нет обновлений</div>
-  }
-
-  // Фильтруем обновления по категории и поиску
   const filteredUpdates = updates.filter(update => {
     const matchesCategory = filter === 'all' || update.updateType === filter
-    
-    // Убираем markdown синтаксис из контента для чистого поиска
     const cleanContent = update.content
-      ?.replace(/!\[.*?\]\(.*?\)/g, '') // Убираем картинки ![alt](url)
-      ?.replace(/\[.*?\]\(.*?\)/g, '')  // Убираем ссылки [text](url)
-      ?.replace(/```[\s\S]*?```/g, '')  // Убираем блоки кода
-      ?.replace(/`.*?`/g, '')           // Убираем inline код
+      ?.replace(/!\[.*?\]\(.*?\)/g, '')
+      ?.replace(/\[.*?\]\(.*?\)/g, '')
+      ?.replace(/```[\s\S]*?```/g, '')
+      ?.replace(/`.*?`/g, '')
       ?.toLowerCase() || ''
-    
-    const matchesSearch = 
+    const matchesSearch =
       update.version?.toLowerCase().includes(search.toLowerCase()) ||
       cleanContent.includes(search.toLowerCase())
-    
     return matchesCategory && matchesSearch
   })
 
   return (
     <div className="updates-page">
       <h2>📝 Changelog</h2>
-      
-      {/* Фильтры */}
+
       <div className="filters">
         <div className="category-filters">
-          <button
-            className={`filter-btn ${filter === 'all' ? 'active' : ''}`}
-            onClick={() => setFilter('all')}
-          >
-            Все
-          </button>
-          <button
-            className={`filter-btn ${filter === 'ребаланс' ? 'active' : ''}`}
-            onClick={() => setFilter('ребаланс')}
-          >
-            ⚖️ Ребаланс
-          </button>
-          <button
-            className={`filter-btn ${filter === 'игра' ? 'active' : ''}`}
-            onClick={() => setFilter('игра')}
-          >
-            🎮 Игра
-          </button>
-          <button
-            className={`filter-btn ${filter === 'багфикс' ? 'active' : ''}`}
-            onClick={() => setFilter('багфикс')}
-          >
-            🐛 Багфикс
-          </button>
+          <button data-cat="all"      className={`filter-btn ${filter === 'all'      ? 'active' : ''}`} onClick={() => setFilter('all')}>Все</button>
+          <button data-cat="ребаланс" className={`filter-btn ${filter === 'ребаланс' ? 'active' : ''}`} onClick={() => setFilter('ребаланс')}>⚖️ Ребаланс</button>
+          <button data-cat="игра"     className={`filter-btn ${filter === 'игра'     ? 'active' : ''}`} onClick={() => setFilter('игра')}>🎮 Игра</button>
+          <button data-cat="багфикс"  className={`filter-btn ${filter === 'багфикс'  ? 'active' : ''}`} onClick={() => setFilter('багфикс')}>🐛 Багфикс</button>
         </div>
 
-        <input
-          type="text"
-          className="search-input"
-          placeholder="🔍 Поиск по версии или тексту..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+        <div className="search-wrapper-updates">
+          <span className="search-icon">🔍</span>
+          <input
+            type="text"
+            className="search-input"
+            placeholder="Поиск по версии или тексту..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
       </div>
 
       <div className="updates-list">
@@ -119,18 +90,12 @@ function Updates() {
 function UpdateCard({ update, isOpen, onToggle }) {
   const formatDate = (dateStr) => {
     return new Date(dateStr).toLocaleDateString('ru-RU', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
+      day: 'numeric', month: 'long', year: 'numeric'
     })
   }
 
   const getCategoryLabel = (cat) => {
-    const labels = {
-      'ребаланс': 'Ребаланс',
-      'игра': 'Игра',
-      'багфикс': 'Багфикс'
-    }
+    const labels = { 'ребаланс': 'Ребаланс', 'игра': 'Игра', 'багфикс': 'Багфикс' }
     return labels[cat] || cat
   }
 
@@ -145,18 +110,13 @@ function UpdateCard({ update, isOpen, onToggle }) {
         </div>
         <div className="update-right">
           <span className="update-date">{formatDate(update.date)}</span>
-          <button className="accordion-btn">
-            {isOpen ? '▲' : '▼'}
-          </button>
+          <button className="accordion-btn">{isOpen ? '▲' : '▼'}</button>
         </div>
       </div>
 
       {isOpen && (
         <div className="update-content">
-          <ReactMarkdown 
-            remarkPlugins={[remarkGfm]}
-            rehypePlugins={[rehypeRaw]}
-          >
+          <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
             {update.content}
           </ReactMarkdown>
         </div>

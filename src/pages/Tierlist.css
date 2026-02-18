@@ -2,31 +2,74 @@
   max-width: 1200px;
   margin: 0 auto;
 }
-.filters {
-  margin-bottom: 2rem;
-}
-.tier-filters {
+
+/* ── ВКЛАДКИ ── */
+.mode-tabs {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid rgba(255,255,255,0.08);
 }
+
+.mode-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  color: var(--text-muted);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-radius: 8px 8px 0 0;
+}
+
+.mode-tab:hover { color: var(--text-light); background: rgba(255,255,255,0.04); }
+.mode-tab.active { color: #90e0ef; border-bottom-color: #00b4d8; background: rgba(0,180,216,0.06); }
+.mode-tab-icon { font-size: 1.1rem; }
+
+/* ── ПОИСК ── */
+.search-wrapper { margin-bottom: 2rem; }
+
+.search-wrapper-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  font-size: 1rem;
+  pointer-events: none;
+  z-index: 1;
+}
+
 .search-input {
   width: 100%;
-  padding: 1rem;
-  background: var(--bg-card);
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  padding: 0.9rem 1rem 0.9rem 2.8rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   color: var(--text-light);
   font-size: 1rem;
+  transition: border-color 0.2s;
 }
+
 .search-input:focus {
   outline: none;
-  border-color: var(--accent);
+  border-color: rgba(0, 180, 216, 0.5);
+  background: rgba(255, 255, 255, 0.07);
 }
-.tier-section {
-  margin-bottom: 3rem;
-}
+
+/* ── OVERALL ── */
+.tier-section { margin-bottom: 3rem; }
+
 .tier-badge {
   display: inline-block;
   padding: 0.5rem 1.5rem;
@@ -35,48 +78,83 @@
   font-size: 1.5rem;
   margin-bottom: 1rem;
 }
+
 .tier-badge.t1 { background: var(--color-t1); color: #000; }
 .tier-badge.t2 { background: var(--color-t2); color: #000; }
 .tier-badge.t3 { background: var(--color-t3); color: #000; }
 .tier-badge.t4 { background: var(--color-t4); color: #fff; }
+.tier-badge.t5 { background: var(--color-t5); color: #fff; }
+
 .tier-players {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.5rem;
 }
+
+/* ── КАРТОЧКА ── */
 .player-card {
-  background: var(--bg-card);
+  background: rgba(10, 14, 39, 0.20);
+  backdrop-filter: blur(12px);
   border-radius: 12px;
   padding: 1.5rem;
-  border: 2px solid transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.3s;
 }
+
 .player-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  background: rgba(10, 14, 39, 0.32);
 }
-.player-card.t1:hover { border-color: var(--color-t1); }
-.player-card.t2:hover { border-color: var(--color-t2); }
-.player-card.t3:hover { border-color: var(--color-t3); }
-.player-card.t4:hover { border-color: var(--color-t4); }
+
+.player-card.t1:hover { border-color: rgba(255,215,0,0.5); box-shadow: 0 8px 32px rgba(255,215,0,0.1); }
+.player-card.t2:hover { border-color: rgba(192,192,192,0.5); box-shadow: 0 8px 32px rgba(192,192,192,0.1); }
+.player-card.t3:hover { border-color: rgba(205,127,50,0.5); box-shadow: 0 8px 32px rgba(205,127,50,0.1); }
+.player-card.t4:hover { border-color: rgba(139,115,85,0.5); }
+.player-card.t5:hover { border-color: rgba(107,142,35,0.5); }
+
 .player-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
 }
-.player-position {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--color-t1);
-}
+
+.player-position { font-size: 1.5rem; font-weight: 700; }
 .player-points {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--accent);
+  background: linear-gradient(135deg, #90e0ef, #caf0f8, #90e0ef);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: logoShimmer 4s ease infinite;
+  display: flex;
+  align-items: baseline;
+  gap: 0.3rem;
+}
+.pts-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  -webkit-text-fill-color: #e8eaed;
+  color: #e8eaed;
+  letter-spacing: 0.05em;
 }
 
-/* Новый блок с головой и ником */
+/* Цвет позиции и ника по тиру */
+.player-card.t1 .player-position { color: var(--color-t1); }
+.player-card.t2 .player-position { color: var(--color-t2); }
+.player-card.t3 .player-position { color: var(--color-t3); }
+.player-card.t4 .player-position { color: var(--color-t4); }
+.player-card.t5 .player-position { color: var(--color-t5); }
+
+.player-card.t1 .player-username { color: var(--color-t1); }
+.player-card.t2 .player-username { color: var(--color-t2); }
+.player-card.t3 .player-username { color: var(--color-t3); }
+.player-card.t4 .player-username { color: var(--color-t4); }
+.player-card.t5 .player-username { color: var(--color-t5); }
+
 .player-main {
   display: flex;
   align-items: center;
@@ -97,54 +175,181 @@
   gap: 0.5rem;
   font-size: 0.9rem;
   color: var(--text-muted);
+  margin-bottom: 0.5rem;
 }
+
+/* ── СТАТУС — выделенный прямоугольник ── */
 .player-status {
-  padding: 0.25rem 0.75rem;
-  border-radius: 12px;
+  display: inline-block;
+  padding: 0.3rem 0.9rem;
+  border-radius: 6px;
   font-size: 0.85rem;
   font-weight: 600;
   width: fit-content;
 }
+
 .player-status.confirmed {
-  background: rgba(76, 175, 80, 0.2);
+  background: rgba(76,175,80,0.2);
   color: #4CAF50;
+  border: 1px solid rgba(76,175,80,0.5);
 }
+
 .player-status.unconfirmed {
-  background: rgba(255, 152, 0, 0.2);
-  color: #FF9800;
+  background: rgba(244,67,54,0.1);
+  color: #C0504A;
+  border: 1px solid rgba(244,67,54,0.25);
 }
+
 .player-status.pending {
-  background: rgba(158, 158, 158, 0.2);
-  color: #9E9E9E;
+  background: rgba(158,158,158,0.18);
+  color: #ADADAD;
+  border: 1px solid rgba(158,158,158,0.35);
 }
-.player-update, .player-note {
+
+/* ── ВЕРСИЯ — фиолетовый ── */
+.player-update {
   margin-top: 0.5rem;
-  padding: 0.5rem;
-  background: rgba(66, 133, 244, 0.1);
+  padding: 0.4rem 0.75rem;
+  background: rgba(156,100,255,0.1);
+  border: 1px solid rgba(156,100,255,0.25);
   border-radius: 6px;
   font-size: 0.85rem;
+  color: #C49EFF;
 }
+
+/* ── ОПИСАНИЕ — синеватый ── */
+.player-note {
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  background: rgba(66,133,244,0.1);
+  border: 1px solid rgba(66,133,244,0.25);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  color: #7EB3FF;
+}
+
+/* ── КНОПКА ВИДЕО ── */
 .player-video-link {
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
   margin-top: 0.75rem;
-  padding: 0.75rem;
-  background: rgba(255, 0, 0, 0.1);
-  border: 2px solid rgba(255, 0, 0, 0.3);
-  border-radius: 8px;
-  color: #FF4444;
-  text-decoration: none;
-  text-align: center;
-  font-weight: 600;
-  font-size: 0.9rem;
-  transition: all 0.3s;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-size: 0.82rem;
+  transition: color 0.2s;
 }
+
 .player-video-link:hover {
-  background: rgba(255, 0, 0, 0.2);
-  border-color: #FF4444;
-  transform: translateY(-2px);
+  color: var(--text-light);
+  transform: none;
 }
+
+/* ── MODE TABLE ── */
+.mode-table {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.mode-table-header {
+  display: grid;
+  grid-template-columns: 70px 1fr 140px;
+  padding: 0.75rem 1.5rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.mode-row {
+  display: grid;
+  grid-template-columns: 70px 1fr 140px;
+  padding: 1rem 1.5rem;
+  align-items: center;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.07);
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+
+.mode-row::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  border-radius: 10px 0 0 10px;
+}
+
+.mode-row.gold::before   { background: var(--color-t1); }
+.mode-row.silver::before { background: var(--color-t2); }
+.mode-row.bronze::before { background: var(--color-t3); }
+
+.mode-row:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.13);
+  transform: translateX(4px);
+}
+
+.mode-row.gold   { background: rgba(255,215,0,0.05);   border-color: rgba(255,215,0,0.12); }
+.mode-row.silver { background: rgba(192,192,192,0.05); border-color: rgba(192,192,192,0.12); }
+.mode-row.bronze { background: rgba(205,127,50,0.05);  border-color: rgba(205,127,50,0.12); }
+
+.col-rank   { display: flex; align-items: center; }
+.col-player { display: flex; align-items: center; gap: 1rem; }
+.col-points {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-align: right;
+  letter-spacing: 0.05em;
+}
+
+.mode-row .col-points {
+  background: linear-gradient(135deg, #90e0ef, #caf0f8, #90e0ef);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: logoShimmer 4s ease infinite;
+  font-size: 1.1rem;
+}
+
+.rank-number { font-size: 1.2rem; font-weight: 800; color: var(--text-muted); min-width: 2rem; }
+.rank-number.gold   { color: var(--color-t1); }
+.rank-number.silver { color: var(--color-t2); }
+.rank-number.bronze { color: var(--color-t3); }
+
+.mode-player-info { display: flex; flex-direction: column; }
+.mode-username { font-size: 1.05rem; font-weight: 600; color: var(--text-light); }
+
 @media (max-width: 768px) {
-  .tier-players {
-    grid-template-columns: 1fr;
+  .tier-players { grid-template-columns: 1fr; }
+  .mode-tabs { flex-wrap: wrap; }
+  .mode-tab { padding: 0.6rem 1rem; font-size: 0.9rem; }
+  .col-points { font-size: 1rem; }
+  .mode-table-header, .mode-row { grid-template-columns: 50px 1fr 90px; padding: 0.75rem 1rem; }
+}
+
+/* ── АНИМАЦИЯ ПЕРЕКЛЮЧЕНИЯ ВКЛАДОК ── */
+@keyframes tabFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
   }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tab-content {
+  animation: tabFadeIn 0.25s ease forwards;
 }

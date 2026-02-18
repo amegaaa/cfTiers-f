@@ -7,6 +7,12 @@ export const api = {
       return response.json()
     },
   },
+  modePlayers: {
+    getAll: async () => {
+      const response = await fetch(`${API_URL}/api/mode-players?sort=points:desc&populate=*`)
+      return response.json()
+    },
+  },
   updates: {
     getAll: async () => {
       const response = await fetch(`${API_URL}/api/updates?sort=date:desc&populate=*`)
