@@ -181,7 +181,7 @@ function PlayerCard({ player }) {
         <div className="player-points">{player.points} <span className="pts-label">PTS</span></div>
       </div>
       <div className="player-main">
-        <PlayerHead username={player.username} size={64} />
+        <PlayerHead username={player.username} size={56} />
         <div className="player-username">{player.username}</div>
       </div>
       <div className="player-info">
