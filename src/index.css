@@ -110,7 +110,7 @@ body {
 }
 .main-wrapper::before {
   content: '';
-  position: absolute;
+  position: fixed;
   inset: 0;
   background-image: var(--bg-image);
   background-size: cover;

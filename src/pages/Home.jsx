@@ -55,7 +55,7 @@ function Home() {
       <div className="home-hero">
         <div className="hero-content">
           <h1 className="hero-title">
-            <span className="logo-emoji">🏰</span> CFTiers
+            CFTiers
           </h1>
           <p className="hero-subtitle">
             Тирлист игроков режима <span className="accent">Сastle Fight</span>
