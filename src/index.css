@@ -46,6 +46,15 @@ body {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   animation: logoShimmer 4s ease infinite;
+  margin: 0;
+}
+.logo-link {
+  text-decoration: none;
+}
+.logo-link:hover h1 {
+  filter: drop-shadow(0 0 20px rgba(0,180,216,0.6));
+  transform: scale(1.02);
+  transition: all 0.3s ease;
 }
 .header h1 .logo-emoji {
   -webkit-text-fill-color: initial;

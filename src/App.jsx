@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom'
 import Tierlist from './pages/Tierlist'
 import Updates from './pages/Updates'
+import Home from './pages/Home'
 import './App.css'
 
 const BG_IMAGE = '/bg.jpg'
@@ -12,9 +13,12 @@ function AppLayout() {
     <div className="app">
       <header className="header">
         <div className="header-inner">
-          <h1><span className="logo-emoji">🏰</span> CFTiers</h1>
+          <Link to="/" className="logo-link">
+            <h1><span className="logo-emoji">🏰</span> CFTiers</h1>
+          </Link>
           <nav className="nav">
-            <Link to="/" className={location.pathname === '/' ? 'active' : ''}>Тирлист</Link>
+            <Link to="/" className={location.pathname === '/' ? 'active' : ''}>Главная</Link>
+            <Link to="/tierlist" className={location.pathname === '/tierlist' ? 'active' : ''}>Тирлист</Link>
             <Link to="/updates" className={location.pathname === '/updates' ? 'active' : ''}>Изменения CF</Link>
           </nav>
         </div>
@@ -23,7 +27,8 @@ function AppLayout() {
       <div className="main-wrapper" style={{ '--bg-image': `url(${BG_IMAGE})` }}>
         <main className="main">
           <Routes>
-            <Route path="/" element={<Tierlist />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/tierlist" element={<Tierlist />} />
             <Route path="/updates" element={<Updates />} />
           </Routes>
         </main>
