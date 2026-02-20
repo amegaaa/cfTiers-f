@@ -6,34 +6,25 @@ const SECTIONS = [
     id: 'tierlist',
     title: 'Тирлист игроков',
     icon: '🏆',
-    description: 'Рейтинг игроков сервера Cristalix по общему зачёту. Распределение по тирам от T1 до T5 на основе статистики и калибровок.',
-    link: '/',
+    description: 'Рейтинг игроков по общему зачёту. Распределение по тирам от T1 до T5 на основе внутренней статистики и калибровок.',
+    link: '/tierlist',
     color: 'gold',
   },
   {
     id: 'modes',
     title: 'Режимы',
     icon: '⚔️',
-    description: 'Топы игроков по игровым режимам: 1x2, 2x2, 4x2. Сравнивай скилл в разных форматах игры.',
-    link: '/#modes',
-    color: 'diamond',
+    description: 'Топы игроков по игровым режимам: 1x2, 2x2, 4x2. Для любителей поиграть в пати и соло душнил.',
+    link: '/tierlist#modes',
+    color: 'cyan',
   },
   {
     id: 'updates',
     title: 'Обновления CF',
     icon: '📰',
-    description: 'История изменений тирлиста: ребалансы, новые игроки, обновления механик. Будь в курсе всех изменений!',
+    description: 'История изменений режима: ребалансы, обновления механик, обновления визуала, багфиксы.',
     link: '/updates',
-    color: 'emerald',
-  },
-  {
-    id: 'guides',
-    title: 'Гайды',
-    icon: '📚',
-    description: 'Полезные материалы и руководства по игре. Советы от топовых игроков и разборы механик.',
-    link: '#',
     color: 'blue',
-    soon: false,
   },
 ]
 
@@ -67,7 +58,7 @@ function Home() {
             <span className="logo-emoji">🏰</span> CFTiers
           </h1>
           <p className="hero-subtitle">
-            Официальный тирлист игроков сервера <span className="accent">Cristalix</span>
+            Тирлист игроков режима <span className="accent">Сastle Fight</span>
           </p>
           <p className="hero-description">
             Добро пожаловать на CFTiers — проект для отслеживания рейтинга игроков по различным режимам игры.
@@ -104,24 +95,29 @@ function Home() {
 
 function SectionCard({ title, icon, description, link, color, soon = false }) {
   const CardWrapper = soon ? 'div' : Link
-  
+
   return (
-    <CardWrapper 
-      to={link} 
+    <CardWrapper
+      to={link}
       className={`section-card ${color} ${soon ? 'soon' : ''}`}
     >
       <div className="card-header">
         <span className="card-icon">{icon}</span>
         {soon && <span className="soon-badge">Soon</span>}
       </div>
-      
+
       <h3 className="card-title">{title}</h3>
-      
+
       <p className="card-description">{description}</p>
-      
+
       {!soon && (
         <div className="card-action">
-          <span className="card-link-text">Перейти →</span>
+          <span className="card-link-btn">
+            Перейти
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </span>
         </div>
       )}
     </CardWrapper>
