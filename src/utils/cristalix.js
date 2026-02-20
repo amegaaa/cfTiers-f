@@ -12,6 +12,24 @@ const skinCache = new Map()
 // Статус загрузки
 let isLoading = false
 let isLoaded = false
+let loadError = null
+
+/**
+ * Проверка работоспособности API
+ */
+export async function checkHealth() {
+  try {
+    const response = await fetch(`${API_URL}/api/cristalix/health`, {
+      signal: AbortSignal.timeout(5000),
+    })
+    if (!response.ok) return false
+    const data = await response.json()
+    return data.status === 'ok'
+  } catch (error) {
+    console.warn('Cristalix health check failed:', error.message)
+    return false
+  }
+}
 
 /**
  * Загрузить ВСЕ скины одним запросом к /api/cristalix/skins
@@ -22,19 +40,24 @@ export async function preloadAllSkins() {
   isLoading = true
 
   try {
-    const response = await fetch(`${API_URL}/api/cristalix/skins`)
+    const response = await fetch(`${API_URL}/api/cristalix/skins`, {
+      signal: AbortSignal.timeout(30000),
+    })
 
     if (!response.ok) {
       console.warn(`Failed to preload skins: ${response.status}`)
+      loadError = `HTTP ${response.status}`
       return
     }
 
     const data = await response.json()
 
     // data.skins = { "ник": { uuid, skinUrl }, ... }
-    if (data.skins) {
+    if (data.skins && Object.keys(data.skins).length > 0) {
       Object.entries(data.skins).forEach(([username, profile]) => {
-        skinCache.set(username.toLowerCase(), profile.skinUrl)
+        if (profile?.skinUrl) {
+          skinCache.set(username.toLowerCase(), profile.skinUrl)
+        }
       })
     }
 
@@ -42,7 +65,8 @@ export async function preloadAllSkins() {
     isLoaded = true
 
   } catch (error) {
-    console.error('Cristalix preload error:', error)
+    console.error('Cristalix preload error:', error.message)
+    loadError = error.message
   } finally {
     isLoading = false
   }
@@ -66,23 +90,30 @@ export async function getSkinByUsername(username) {
     if (afterLoad) return afterLoad
   }
 
-  // Fallback: индивидуальный запрос
-  try {
-    const response = await fetch(`${API_URL}/api/cristalix/skin/${username}`)
-    if (!response.ok) return null
+  // Fallback: индивидуальный запрос (только если API работает)
+  if (!loadError || loadError === null) {
+    try {
+      const response = await fetch(`${API_URL}/api/cristalix/skin/${username}`, {
+        signal: AbortSignal.timeout(10000),
+      })
+      if (!response.ok) return null
 
-    const data = await response.json()
-    const skinUrl = data?.skinUrl
+      const data = await response.json()
+      const skinUrl = data?.skinUrl
 
-    if (skinUrl) {
-      skinCache.set(username.toLowerCase(), skinUrl)
+      if (skinUrl) {
+        skinCache.set(username.toLowerCase(), skinUrl)
+      }
+
+      return skinUrl || null
+    } catch (error) {
+      console.error(`Cristalix fallback error for ${username}:`, error.message)
+      loadError = error.message
+      return null
     }
-
-    return skinUrl || null
-  } catch (error) {
-    console.error(`Cristalix fallback error for ${username}:`, error)
-    return null
   }
+
+  return null
 }
 
 /**
@@ -99,4 +130,12 @@ export function getSkinUrl(uuid) {
 export function clearCache() {
   skinCache.clear()
   isLoaded = false
+  loadError = null
+}
+
+/**
+ * Получить статус загрузки
+ */
+export function getLoadStatus() {
+  return { isLoaded, isLoading, error: loadError, cacheSize: skinCache.size }
 }
