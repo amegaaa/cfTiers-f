@@ -48,29 +48,31 @@ function Tierlist() {
 
   return (
     <div className="tierlist-page">
-      <div className="mode-tabs">
-        {TABS.map(({ key, label, icon }) => (
-          <button
-            key={key}
-            className={`mode-tab ${tab === key ? 'active' : ''}`}
-            onClick={() => { setTab(key); setSearch('') }}
-          >
-            <span className="mode-tab-icon">{icon}</span>
-            {label}
-          </button>
-        ))}
-      </div>
+      <div className="tierlist-header">
+        <div className="mode-tabs">
+          {TABS.map(({ key, label, icon }) => (
+            <button
+              key={key}
+              className={`mode-tab ${tab === key ? 'active' : ''}`}
+              onClick={() => { setTab(key); setSearch('') }}
+            >
+              <span className="mode-tab-icon">{icon}</span>
+              {label}
+            </button>
+          ))}
+        </div>
 
-      <div className="search-wrapper">
-        <div className="search-wrapper-inner">
-          <span className="search-icon">🔍</span>
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Поиск по никнейму..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
+        <div className="search-wrapper">
+          <div className="search-wrapper-inner">
+            <span className="search-icon">🔍</span>
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Поиск по никнейму..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
         </div>
       </div>
 

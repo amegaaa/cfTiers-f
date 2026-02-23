@@ -4,12 +4,22 @@
   padding: 0 1rem;
 }
 
+/* ── HEADER ── */
+.tierlist-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
 /* ── ВКЛАДКИ ── */
 .mode-tabs {
   display: flex;
   gap: 0.5rem;
-  margin-bottom: 1.5rem;
   border-bottom: 2px solid rgba(255,255,255,0.08);
+  padding-bottom: 0;
 }
 
 .mode-tab {
@@ -34,7 +44,11 @@
 .mode-tab-icon { font-size: 1.1rem; }
 
 /* ── ПОИСК ── */
-.search-wrapper { margin-bottom: 2rem; }
+.search-wrapper {
+  flex: 1;
+  min-width: 280px;
+  max-width: 450px;
+}
 
 .search-wrapper-inner {
   position: relative;
@@ -44,7 +58,7 @@
 
 .search-icon {
   position: absolute;
-  left: 1rem;
+  left: 14px;
   font-size: 1rem;
   pointer-events: none;
   z-index: 1;
@@ -52,20 +66,21 @@
 
 .search-input {
   width: 100%;
-  padding: 0.9rem 1rem 0.9rem 2.8rem;
+  padding: 10px 14px 10px 40px;
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
   color: var(--text-light);
-  font-size: 1rem;
-  transition: border-color 0.2s;
+  font-size: 0.9rem;
+  transition: all 0.25s;
 }
 
 .search-input:focus {
   outline: none;
   border-color: rgba(0, 180, 216, 0.5);
-  background: rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.08);
 }
 
 /* ── OVERALL ── */
@@ -332,8 +347,22 @@
 .mode-username { font-size: 1.05rem; font-weight: 600; color: var(--text-light); }
 
 @media (max-width: 768px) {
+  .tierlist-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .mode-tabs {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .search-wrapper {
+    min-width: 100%;
+    max-width: none;
+  }
+
   .tier-players { grid-template-columns: 1fr; }
-  .mode-tabs { flex-wrap: wrap; }
   .mode-tab { padding: 0.6rem 1rem; font-size: 0.9rem; }
   .col-points { font-size: 1rem; }
   .mode-table-header, .mode-row { grid-template-columns: 50px 1fr 90px; padding: 0.75rem 1rem; }
