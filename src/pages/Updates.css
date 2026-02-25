@@ -359,12 +359,10 @@
 .update-content h3 { font-size: 1.2rem; }
 
 .update-content strong {
-  color: var(--text-light);
   font-weight: 700;
 }
 
 .update-content em {
-  color: #90e0ef;
   font-style: italic;
 }
 

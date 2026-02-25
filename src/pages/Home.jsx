@@ -11,11 +11,11 @@ const SECTIONS = [
     color: 'gold',
   },
   {
-    id: 'modes',
-    title: 'Режимы',
-    icon: '⚔️',
-    description: 'Топы игроков по игровым режимам: 1x2, 2x2, 4x2. Для любителей поиграть в пати и соло душнил.',
-    link: '/tierlist#modes',
+    id: 'points',
+    title: 'Поинтовая система',
+    icon: '📊',
+    description: 'Как начисляются очки за турниры, формулы расчёта, коэффициенты сложности и базовые значения.',
+    link: '/tierlist/points',
     color: 'cyan',
   },
   {

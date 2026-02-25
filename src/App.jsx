@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-do
 import Tierlist from './pages/Tierlist'
 import Updates from './pages/Updates'
 import Home from './pages/Home'
+import PointsInfo from './pages/PointsInfo'
+import Changelog from './pages/Changelog'
 import './App.css'
 
 const BG_IMAGE = '/bg.jpg'
@@ -18,7 +20,25 @@ function AppLayout() {
           </Link>
           <nav className="nav">
             <Link to="/" className={location.pathname === '/' ? 'active' : ''}>Главная</Link>
-            <Link to="/tierlist" className={location.pathname === '/tierlist' ? 'active' : ''}>Тирлист</Link>
+            
+            <div className="nav-dropdown">
+              <button className={`nav-dropdown-toggle ${location.pathname.startsWith('/tierlist') ? 'active' : ''}`}>
+                Тирлист
+                <span className="dropdown-arrow">▼</span>
+              </button>
+              <div className="nav-dropdown-menu">
+                <Link to="/tierlist" className="nav-dropdown-item">
+                  🏆 Тирлист
+                </Link>
+                <Link to="/tierlist/points" className="nav-dropdown-item">
+                  📊 Поинтовая система
+                </Link>
+                <Link to="/tierlist/changelog" className="nav-dropdown-item">
+                  📜 История тирлиста
+                </Link>
+              </div>
+            </div>
+
             <Link to="/updates" className={location.pathname === '/updates' ? 'active' : ''}>Изменения CF</Link>
           </nav>
         </div>
@@ -29,6 +49,8 @@ function AppLayout() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/tierlist" element={<Tierlist />} />
+            <Route path="/tierlist/points" element={<PointsInfo />} />
+            <Route path="/tierlist/changelog" element={<Changelog />} />
             <Route path="/updates" element={<Updates />} />
           </Routes>
         </main>

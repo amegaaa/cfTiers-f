@@ -19,6 +19,12 @@ export const api = {
       return response.json()
     },
   },
+  tierlistChangelog: {
+    getAll: async () => {
+      const response = await fetch(`${API_URL}/api/tierlist-changelogs?sort=date:desc&populate=*&pagination[limit]=100`)
+      return response.json()
+    },
+  },
 }
 
 export default api
