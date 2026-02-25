@@ -9,6 +9,7 @@ function Changelog() {
   const [changelogs, setChangelogs] = useState([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
+  const [openId, setOpenId] = useState(null)
 
   useEffect(() => {
     loadChangelogs()
@@ -20,6 +21,9 @@ function Changelog() {
       const data = await api.tierlistChangelog.getAll()
       const sortedData = (data.data || []).sort((a, b) => new Date(b.date) - new Date(a.date))
       setChangelogs(sortedData)
+      if (sortedData.length > 0) {
+        setOpenId(sortedData[0].documentId)
+      }
     } catch (error) {
       console.error('Error loading changelogs:', error)
     } finally {
@@ -62,15 +66,20 @@ function Changelog() {
       </div>
 
       <div className="changelog-timeline">
-        {filteredChangelogs.map((log, index) => (
-          <ChangelogCard key={log.documentId} log={log} isLatest={index === 0} />
+        {filteredChangelogs.map((log) => (
+          <ChangelogCard
+            key={log.documentId}
+            log={log}
+            isOpen={openId === log.documentId}
+            onToggle={() => setOpenId(openId === log.documentId ? null : log.documentId)}
+          />
         ))}
       </div>
     </div>
   )
 }
 
-function ChangelogCard({ log, isLatest }) {
+function ChangelogCard({ log, isOpen, onToggle }) {
   const formatDate = (dateStr) => {
     return new Date(dateStr).toLocaleDateString('ru-RU', {
       day: 'numeric',
@@ -91,34 +100,43 @@ function ChangelogCard({ log, isLatest }) {
           return `## ${block.children?.map(child => child.text || '').join('')}`
         }
         if (block.type === 'list') {
-          return block.children?.map(item => 
+          return block.children?.map(item =>
             `- ${item.children?.map(child => child.text || '').join('')}`
           ).join('\n')
         }
         return ''
       }).join('\n\n')
-      
+
       return <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>{markdown}</ReactMarkdown>
     }
-    
+
     // Richtext (Markdown) формат
     return <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>{log.changes}</ReactMarkdown>
   }
 
   return (
-    <div className={`changelog-card ${isLatest ? 'latest' : ''}`}>
-      <div className="changelog-marker" style={{ backgroundColor: '#00b4d8' }} />
-      
-      <div className="changelog-header-card">
+    <div className={`changelog-card ${isOpen ? 'open' : ''}`}>
+      <div className="changelog-marker" />
+
+      <div className="changelog-header-card" onClick={onToggle} style={{ cursor: 'pointer' }}>
         <div className="changelog-meta">
           <span className="changelog-version">{log.version}</span>
         </div>
-        <span className="changelog-date">{formatDate(log.date)}</span>
+        <div className="changelog-right">
+          <span className="changelog-date">{formatDate(log.date)}</span>
+          <button className={`accordion-btn ${isOpen ? 'open' : ''}`}>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+        </div>
       </div>
 
-      <div className="changelog-content">
-        {renderChanges()}
-      </div>
+      {isOpen && (
+        <div className="changelog-content">
+          {renderChanges()}
+        </div>
+      )}
     </div>
   )
 }

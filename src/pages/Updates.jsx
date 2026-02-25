@@ -20,7 +20,8 @@ function Updates() {
     try {
       setLoading(true)
       const data = await api.updates.getAll()
-      const updatesData = (data.data || []).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      // Сортируем по дате: сначала новые (2025 сентябрь), потом старые (2024)
+      const updatesData = (data.data || []).sort((a, b) => new Date(b.date) - new Date(a.date))
       setUpdates(updatesData)
       if (updatesData.length > 0) {
         setOpenId(updatesData[0].documentId)
@@ -52,7 +53,7 @@ function Updates() {
   return (
     <div className="updates-page">
       <div className="updates-header">
-        <h1>История изменений и обновлений Castle Fight</h1>
+        <h1>История изменений и обновлений CastleFight</h1>
       </div>
 
       <div className="filters">
@@ -102,12 +103,11 @@ function Updates() {
       </div>
 
       <div className="timeline">
-        {filteredUpdates.map((update, index) => (
+        {filteredUpdates.map((update) => (
           <UpdateCard
             key={update.documentId}
             update={update}
             isOpen={openId === update.documentId}
-            isLatest={index === 0}
             onToggle={() => setOpenId(openId === update.documentId ? null : update.documentId)}
           />
         ))}
@@ -116,7 +116,7 @@ function Updates() {
   )
 }
 
-function UpdateCard({ update, isOpen, isLatest, onToggle }) {
+function UpdateCard({ update, isOpen, onToggle }) {
   const formatDate = (dateStr) => {
     return new Date(dateStr).toLocaleDateString('ru-RU', {
       day: 'numeric',
@@ -127,19 +127,19 @@ function UpdateCard({ update, isOpen, isLatest, onToggle }) {
 
   const getCategoryConfig = (cat) => {
     const configs = {
-      'ребаланс': { icon: '⚖️', color: '#FFC107', bg: 'rgba(255,193,7,0.15)' },
-      'игра': { icon: '🎮', color: '#4FC3F7', bg: 'rgba(79,195,247,0.15)' },
-      'багфикс': { icon: '🐛', color: '#FF7043', bg: 'rgba(255,112,67,0.15)' },
+      'ребаланс': { icon: '⚖️', color: '#FFC107' },
+      'игра': { icon: '🎮', color: '#4FC3F7' },
+      'багфикс': { icon: '🐛', color: '#FF7043' },
     }
-    return configs[cat] || { icon: '📌', color: '#90e0ef', bg: 'rgba(144,224,239,0.15)' }
+    return configs[cat] || { icon: '📌', color: '#90e0ef' }
   }
 
   const config = getCategoryConfig(update.updateType)
 
   return (
-    <div className={`update-card ${isOpen ? 'open' : ''} ${isLatest ? 'latest' : ''}`}>
+    <div className={`update-card ${isOpen ? 'open' : ''}`}>
       <div className="update-timeline-marker" style={{ borderColor: config.color }} />
-      
+
       <div className="update-header" onClick={onToggle}>
         <div className="update-left">
           <span className="update-badge" data-cat={update.updateType} style={{ color: config.color }}>
@@ -147,7 +147,7 @@ function UpdateCard({ update, isOpen, isLatest, onToggle }) {
           </span>
           <span className="update-version">{update.version}</span>
         </div>
-        
+
         <div className="update-right">
           <span className="update-date">{formatDate(update.date)}</span>
           <button className={`accordion-btn ${isOpen ? 'open' : ''}`}>
