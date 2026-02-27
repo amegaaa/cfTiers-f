@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import api from '../api'
 import PlayerHead from '../components/PlayerHead'
 import { preloadAllSkins } from '../utils/cristalix'
+import { setPlayersTiers, getUsernameColorClass } from '../utils/tierColors'
 import './Tierlist.css'
 
 const TABS = [
@@ -36,6 +37,10 @@ function Tierlist() {
 
       setPlayers(overallList)
       setModePlayers(modeData.data || [])
+      
+      // Сохраняем маппинг username → tier для всех игроков из overall
+      setPlayersTiers(overallList)
+      
       preloadAllSkins()
     } catch (error) {
       console.error('Error loading players:', error)
@@ -149,6 +154,8 @@ function ModeView({ players, mode, search }) {
 
 function ModeRow({ player, rank }) {
   const rankClass = rank === 1 ? 'gold' : rank === 2 ? 'silver' : rank === 3 ? 'bronze' : ''
+  const usernameColorClass = getUsernameColorClass(player.username)
+  
   return (
     <div className={`mode-row ${rankClass}`}>
       <span className="col-rank">
@@ -157,7 +164,7 @@ function ModeRow({ player, rank }) {
       <span className="col-player">
         <PlayerHead username={player.username} size={36} />
         <div className="mode-player-info">
-          <span className="mode-username">{player.username}</span>
+          <span className={`mode-username ${usernameColorClass}`}>{player.username}</span>
         </div>
       </span>
       <span className="col-points">{player.points}</span>
@@ -175,6 +182,8 @@ function PlayerCard({ player }) {
 
   const statusClass = player.playerStatus === 'Подтвержден' ? 'confirmed' :
                       player.playerStatus === 'Не подтвержден' ? 'unconfirmed' : 'pending'
+  
+  const usernameColorClass = getUsernameColorClass(player.username)
 
   return (
     <div className={`player-card ${player.tier?.toLowerCase()}`}>
@@ -184,7 +193,7 @@ function PlayerCard({ player }) {
       </div>
       <div className="player-main">
         <PlayerHead username={player.username} size={56} />
-        <div className="player-username">{player.username}</div>
+        <div className={`player-username ${usernameColorClass}`}>{player.username}</div>
       </div>
       <div className="player-info">
         <div className="player-date">📅 {formatDate(player.confirmationDate)}</div>

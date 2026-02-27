@@ -52,6 +52,7 @@ function AppLayout() {
             <Route path="/tierlist/points" element={<PointsInfo />} />
             <Route path="/tierlist/changelog" element={<Changelog />} />
             <Route path="/updates" element={<Updates />} />
+            <Route path="/updates/:id" element={<Updates />} />
           </Routes>
         </main>
       </div>

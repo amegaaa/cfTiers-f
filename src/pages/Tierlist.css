@@ -239,6 +239,13 @@
 .player-card.t4 .player-username { color: var(--color-t4); }
 .player-card.t5 .player-username { color: var(--color-t5); }
 
+/* Цвет ника на основе тира (универсальные классы) */
+.tier-color-t1 { color: var(--color-t1) !important; }
+.tier-color-t2 { color: var(--color-t2) !important; }
+.tier-color-t3 { color: var(--color-t3) !important; }
+.tier-color-t4 { color: var(--color-t4) !important; }
+.tier-color-t5 { color: var(--color-t5) !important; }
+
 .player-main {
   display: flex;
   align-items: center;
