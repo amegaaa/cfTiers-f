@@ -9,6 +9,12 @@
   background-repeat: no-repeat;
 }
 
+@media (max-width: 480px) {
+  .player-head {
+    border-radius: 3px;
+  }
+}
+
 .player-head-loading {
   display: flex;
   align-items: center;

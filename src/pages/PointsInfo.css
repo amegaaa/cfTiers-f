@@ -201,3 +201,50 @@
     font-size: 1.3rem;
   }
 }
+
+@media (max-width: 480px) {
+  .points-info-page {
+    padding: 12px;
+  }
+
+  .points-header {
+    padding: 20px 0;
+  }
+
+  .points-header h1 {
+    font-size: 1.3rem;
+  }
+
+  .points-icon {
+    font-size: 1.5rem;
+  }
+
+  .points-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .points-content {
+    padding: 16px;
+  }
+
+  .points-content h1 {
+    font-size: 1.3rem;
+  }
+
+  .points-content h2 {
+    font-size: 1.15rem;
+  }
+
+  .points-content h3 {
+    font-size: 1rem;
+  }
+
+  .points-content table {
+    font-size: 0.85rem;
+  }
+
+  .points-content th,
+  .points-content td {
+    padding: 8px;
+  }
+}

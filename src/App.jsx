@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom'
 import Tierlist from './pages/Tierlist'
 import Updates from './pages/Updates'
@@ -10,6 +11,18 @@ const BG_IMAGE = '/bg.jpg'
 
 function AppLayout() {
   const location = useLocation()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.classList.add('menu-open')
+    } else {
+      document.body.classList.remove('menu-open')
+    }
+    return () => {
+      document.body.classList.remove('menu-open')
+    }
+  }, [mobileMenuOpen])
 
   return (
     <div className="app">
@@ -18,29 +31,50 @@ function AppLayout() {
           <Link to="/" className="logo-link">
             <h1><span className="logo-emoji">🏰</span> CFTiers</h1>
           </Link>
-          <nav className="nav">
-            <Link to="/" className={location.pathname === '/' ? 'active' : ''}>Главная</Link>
-            
+
+          <button
+            className={`mobile-menu-btn ${mobileMenuOpen ? 'open' : ''}`}
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+          <nav className={`nav ${mobileMenuOpen ? 'open' : ''}`}>
+            <Link to="/" className={location.pathname === '/' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>
+              Главная
+            </Link>
+
             <div className="nav-dropdown">
-              <button className={`nav-dropdown-toggle ${location.pathname.startsWith('/tierlist') ? 'active' : ''}`}>
-                Тирлист
+              <div className="nav-dropdown-toggle">
+                <span>Тирлист</span>
                 <span className="dropdown-arrow">▼</span>
-              </button>
+              </div>
               <div className="nav-dropdown-menu">
-                <Link to="/tierlist" className="nav-dropdown-item">
-                  🏆 Тирлист
+                <Link to="/tierlist" className="nav-dropdown-item" onClick={() => setMobileMenuOpen(false)}>
+                  <span className="nav-item-icon">🏆</span>
+                  <span>Тирлист</span>
                 </Link>
-                <Link to="/tierlist/points" className="nav-dropdown-item">
-                  📊 Поинтовая система
+                <Link to="/tierlist/points" className="nav-dropdown-item" onClick={() => setMobileMenuOpen(false)}>
+                  <span className="nav-item-icon">📊</span>
+                  <span>Поинтовая система</span>
                 </Link>
-                <Link to="/tierlist/changelog" className="nav-dropdown-item">
-                  📜 История тирлиста
+                <Link to="/tierlist/changelog" className="nav-dropdown-item" onClick={() => setMobileMenuOpen(false)}>
+                  <span className="nav-item-icon">📜</span>
+                  <span>История тирлиста</span>
                 </Link>
               </div>
             </div>
 
-            <Link to="/updates" className={location.pathname === '/updates' ? 'active' : ''}>Изменения CF</Link>
+            <Link to="/updates" className={location.pathname === '/updates' ? 'active' : ''} onClick={() => setMobileMenuOpen(false)}>
+              Изменения CF
+            </Link>
           </nav>
+
+          {mobileMenuOpen && (
+            <div className="nav-overlay" onClick={() => setMobileMenuOpen(false)} />
+          )}
         </div>
       </header>
 

@@ -299,28 +299,122 @@
   }
 
   .changelog-timeline {
-    padding-left: 12px;
+    padding-left: 20px;
   }
 
   .changelog-timeline::before {
-    left: 6px;
+    left: 10px;
+    width: 2px;
   }
 
   .changelog-card {
-    padding: 16px 16px 16px 36px;
+    padding: 16px 16px 16px 44px;
   }
 
   .changelog-marker {
-    left: -18px;
+    left: -24px;
+    width: 16px;
+    height: 16px;
+    border-width: 3px;
   }
 
   .changelog-header-card {
     flex-direction: column;
     align-items: flex-start;
+    gap: 10px;
   }
 
   .changelog-right {
     width: 100%;
     justify-content: space-between;
+  }
+}
+
+@media (max-width: 480px) {
+  .changelog-page {
+    padding: 12px;
+  }
+
+  .changelog-header {
+    padding: 20px 0;
+  }
+
+  .changelog-header h1 {
+    font-size: 1.3rem;
+  }
+
+  .changelog-icon {
+    font-size: 1.5rem;
+  }
+
+  .changelog-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .changelog-filters {
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+
+  .filter-btn {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+
+  .changelog-timeline {
+    padding-left: 12px;
+  }
+
+  .changelog-timeline::before {
+    left: 6px;
+    width: 2px;
+  }
+
+  .changelog-card {
+    padding: 14px 14px 14px 36px;
+    margin-bottom: 12px;
+  }
+
+  .changelog-marker {
+    left: -18px;
+    width: 14px;
+    height: 14px;
+    border-width: 2.5px;
+  }
+
+  .changelog-version {
+    font-size: 1.1rem;
+  }
+
+  .changelog-date {
+    font-size: 0.8rem;
+  }
+
+  .changelog-content {
+    padding: 16px;
+    font-size: 0.9rem;
+  }
+
+  .changelog-content h1 {
+    font-size: 1.2rem;
+  }
+
+  .changelog-content h2 {
+    font-size: 1.1rem;
+  }
+
+  .changelog-content h3 {
+    font-size: 1rem;
+  }
+
+  .changelog-content table {
+    font-size: 0.85rem;
+  }
+
+  .changelog-content th,
+  .changelog-content td {
+    padding: 8px;
   }
 }
