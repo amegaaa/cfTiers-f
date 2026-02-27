@@ -93,7 +93,7 @@
 .update-card-image {
   height: 140px;
   background-size: cover;
-  background-position: left center;
+  background-position: top left;
   position: relative;
 }
 
@@ -201,6 +201,12 @@
   border-color: rgba(255, 255, 255, 0.2);
   color: var(--text-light);
   transform: translateX(2px);
+}
+
+.update-card-grid:hover .update-card-read {
+  background: rgba(0, 180, 216, 0.15);
+  border-color: rgba(0, 180, 216, 0.4);
+  color: #90e0ef;
 }
 
 .update-card-read svg {
